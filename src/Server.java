@@ -44,7 +44,7 @@ public class Server {
         if(hasArgs) {
             port = Integer.parseInt(args[0]);
         }else{
-            System.out.println("No args provided, using default port" + port);
+            System.out.println("No args provided, using default port " + port);
         }
 
         try {
