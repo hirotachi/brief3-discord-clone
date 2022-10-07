@@ -39,7 +39,7 @@ public class Client {
                     uploadFile(message);
                 }
                 else if (message.startsWith("/list")){
-                    listFilesInCurrentDirectory();
+                    listFilesInCurrentDirectory(message);
                 } else if (message.startsWith("/exit")){
                     System.out.println("Closing connection...");
                     closeLeaks(socket, bufferedReader, bufferedWriter);
@@ -148,9 +148,20 @@ public class Client {
         }).start();
     }
 
-    private void listFilesInCurrentDirectory() {
-        File currentDirectory = new File(System.getProperty("user.dir"));
-        File[] files = currentDirectory.listFiles();
+    private void listFilesInCurrentDirectory(String command) {
+        String[] commandParts = command.split(" ");
+        String directoryPath = commandParts.length > 1 ? commandParts[1] : System.getProperty("user.dir");
+        File directory = new File(directoryPath);
+        if (!directory.exists()) {
+            System.out.println("Directory " + directoryPath + " does not exist!");
+            return;
+        }
+        if (!directory.isDirectory()) {
+            System.out.println(directoryPath + " is not a directory!");
+            return;
+        }
+        File[] files = directory.listFiles();
+        assert files != null;
         for (File file : files) {
             System.out.println(file.getName());
         }
